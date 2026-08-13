@@ -113,11 +113,19 @@ def normalize_items(raw_data, source_name):
     return items
 
 
+SOURCE_LABELS = {
+    "hotdeal": "🔥 핫딜상품",
+    "recommend": "🔔 추천상품",
+}
+
+
 def format_single_message(item):
     """상품 1개짜리 텔레그램 메시지 포맷 (개별 전송용, 바로 복붙 가능)"""
+    label = SOURCE_LABELS.get(item["source"], "상품")
     discount = f" (↓{item['discount']}%)" if item["discount"] else ""
     price_org = f" (정가 {item['price_org']}원)" if item["price_org"] and item["price_org"] != item["price_sale"] else ""
     return (
+        f"{label}\n"
         f"🏪 {item['mall']}\n"
         f"📌 {item['title']}\n"
         f"💰 {item['price_sale']}원{discount}{price_org}\n"
